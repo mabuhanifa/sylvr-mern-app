@@ -38,6 +38,7 @@ export default function UpdateUser() {
       body: JSON.stringify({ email, firstName, lastName }),
     });
     const data = await res.json();
+    
     if (data.status === "success") {
       toast.success(data.message + " Navigating to Home page");
       localStorage.setItem("loggedUser", JSON.stringify(data.data));

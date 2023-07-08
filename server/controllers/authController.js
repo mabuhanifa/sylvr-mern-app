@@ -10,15 +10,13 @@ const loginHandler = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res
-        .status(401)
-        .json({ error: `No User found with email ${email}` });
+      return res.json({ message: `No User found with email ${email}` });
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Password is incorrect" });
+      return res.json({ message: "Password is incorrect" });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
@@ -31,7 +29,7 @@ const loginHandler = async (req, res) => {
       token: token,
     });
   } catch (error) {
-    res.send(error);
+    res.send({ message: error });
   }
 };
 
@@ -42,7 +40,7 @@ const registerUser = async (req, res) => {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(400).json({ error: "Email already exists" });
+      return res.json({ message: "Email already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -62,7 +60,9 @@ const registerUser = async (req, res) => {
       status: "success",
     });
   } catch (error) {
-    res.send(error);
+    {
+      message: error;
+    }
   }
 };
 
@@ -99,7 +99,9 @@ const updateUserController = async (req, res) => {
       data: { user: { email: user.email, id: user._id } },
     });
   } catch (error) {
-    res.send(error);
+    {
+      message: error;
+    }
   }
 };
 
