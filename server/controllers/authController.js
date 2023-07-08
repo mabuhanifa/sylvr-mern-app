@@ -8,6 +8,7 @@ const loginHandler = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
+    
     if (!user) {
       return res
         .status(401)
@@ -66,6 +67,7 @@ const registerUser = async (req, res) => {
 };
 
 const updateUserController = async (req, res) => {
+
   const { firstName, lastName, email } = req.body;
 
   try {
