@@ -9,12 +9,15 @@ const loginHandler = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res
+        .status(401)
+        .json({ error: `No User found with email ${email}` });
     }
-
+    
     const passwordMatch = await bcrypt.compare(password, user.password);
+
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid email or password" });
+      return res.status(401).json({ error: "Password is incorrect" });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
