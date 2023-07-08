@@ -8,7 +8,7 @@ const loginHandler = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
-    
+
     if (!user) {
       return res
         .status(401)
@@ -27,11 +27,11 @@ const loginHandler = async (req, res) => {
 
     res.json({
       message: "Login successful",
-      data: { user: user.email },
+      data: { user: { email: user.email, id: user._id } },
       token: token,
     });
   } catch (error) {
-    res.status(500).json({ error: "Something went wrong" });
+    res.send(error);
   }
 };
 
@@ -62,20 +62,15 @@ const registerUser = async (req, res) => {
       status: "success",
     });
   } catch (error) {
-    res.status(500).json({ error: "Something went wrong" });
+    res.send(error);
   }
 };
 
 const updateUserController = async (req, res) => {
-
   const { firstName, lastName, email } = req.body;
 
   try {
     const user = await User.findById(email);
-
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
 
     user.firstName = firstName;
     user.lastName = lastName;
@@ -85,8 +80,7 @@ const updateUserController = async (req, res) => {
 
     res.json({ message: "User updated successfully", status: "success" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.send(error);
   }
 };
 
