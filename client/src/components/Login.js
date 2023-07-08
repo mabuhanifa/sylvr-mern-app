@@ -80,12 +80,7 @@ export default function Login() {
           />
         </form>
       </div>
-      <h2 className="text-center my-5 font-[500]">
-        Forgot Password ?
-        <span className="bg-red-600 text-white ml-2 px-2 py-1 border rounded ">
-          <Link to="/reset"> Reset</Link>
-        </span>
-      </h2>
+     
     </div>
   );
 }

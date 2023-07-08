@@ -29,7 +29,7 @@ export default function UpdateUser() {
       return;
     }
 
-    const res = await fetch("http://localhost:3000/api/register", {
+    const res = await fetch("http://localhost:3000/api/update", {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -40,6 +40,7 @@ export default function UpdateUser() {
     const data = await res.json();
     if (data.status === "success") {
       toast.success(data.message + " Navigating to Home page");
+      localStorage.setItem("loggedUser", JSON.stringify(data.data));
       setTimeout(() => {
         navigate("/");
       }, 2000);

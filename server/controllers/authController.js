@@ -93,7 +93,11 @@ const updateUserController = async (req, res) => {
 
     await user.save();
 
-    res.json({ message: "User updated successfully", status: "success" });
+    res.json({
+      message: "User updated successfully",
+      status: "success",
+      data: { user: { email: user.email, id: user._id } },
+    });
   } catch (error) {
     res.send(error);
   }

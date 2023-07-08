@@ -8,7 +8,7 @@ export default function Nav() {
     loggedUser: { user },
     setLoggedUser,
   } = useProvider();
-  
+
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("loggedUser"));
     if (id) {
@@ -25,7 +25,7 @@ export default function Nav() {
 
   return (
     <nav>
-      <div className="md:flex md:justify-between p-10 shad rounded-3xl">
+      <div className="md:flex md:justify-between p-10 shad rounded-3xl items-center">
         <div>
           <p>
             Logged In User :{" "}
@@ -38,6 +38,13 @@ export default function Nav() {
             </span>
           </p>
         </div>
+        {user?.email && (
+          <h2 className="text-center my-5 font-[500]">
+            <span className="bg-green-600 text-white ml-2 px-2 py-1 border rounded ">
+              <Link to="/update"> Update Profile</Link>
+            </span>
+          </h2>
+        )}
         <div>
           {user?.email ? (
             <button
