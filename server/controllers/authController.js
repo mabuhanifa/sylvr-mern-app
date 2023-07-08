@@ -13,7 +13,7 @@ const loginHandler = async (req, res) => {
         .status(401)
         .json({ error: `No User found with email ${email}` });
     }
-    
+
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
@@ -24,7 +24,11 @@ const loginHandler = async (req, res) => {
       expiresIn: "1h",
     });
 
-    res.json({ message: "Login successful", token: token });
+    res.json({
+      message: "Login successful",
+      data: { user: user.email },
+      token: token,
+    });
   } catch (error) {
     res.status(500).json({ error: "Something went wrong" });
   }

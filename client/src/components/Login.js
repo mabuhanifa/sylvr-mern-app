@@ -18,7 +18,7 @@ export default function Login() {
       return;
     }
 
-    const res = await fetch("https://localhost:5000/api/login", {
+    const res = await fetch("http://localhost:3000/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,6 +26,7 @@ export default function Login() {
       body: JSON.stringify({ email, password }),
     });
     const data = await res.json();
+    console.log(data);
     if (data.token) {
       localStorage.setItem("loginToken", data.token);
       localStorage.setItem("loggedUser", JSON.stringify(data.data));
