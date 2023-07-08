@@ -4,13 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 export default function UpdateUser() {
   const [token, setToken] = useState("");
-  console.log(token);
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
 
   useEffect(() => {
     const storedToken = localStorage.getItem("loginToken");
@@ -24,24 +22,20 @@ export default function UpdateUser() {
     e.preventDefault();
     if (
       firstName.trim() === "" ||
-      password.trim() === "" ||
+      lastName.trim() === "" ||
       email.trim() === ""
     ) {
       setError("All fields are required");
       return;
     }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters");
-      return;
-    }
 
     const res = await fetch("http://localhost:3000/api/register", {
-      method: "POST",
+      method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, firstName, lastName, password }),
+      body: JSON.stringify({ email, firstName, lastName }),
     });
     const data = await res.json();
     if (data.status === "success") {
@@ -89,15 +83,6 @@ export default function UpdateUser() {
             name="email"
             placeholder="Enter Email"
             onChange={(e) => setEmail(e.target.value)}
-          />
-          <br />
-
-          <input
-            type="password"
-            className="px-5 py-2 rounded bg-slate-300  placeholder-black my-5"
-            name="password"
-            placeholder="Enter Password"
-            onChange={(e) => setPassword(e.target.value)}
           />
           <br />
           <input

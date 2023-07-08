@@ -65,4 +65,27 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { loginHandler, registerUser };
+const updateUserController = async (req, res) => {
+  const { firstName, lastName, email } = req.body;
+
+  try {
+    const user = await User.findById(email);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email;
+
+    await user.save();
+
+    res.json({ message: "User updated successfully", status: "success" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = { loginHandler, registerUser, updateUserController };

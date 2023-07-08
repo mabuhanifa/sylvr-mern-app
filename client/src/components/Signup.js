@@ -14,6 +14,7 @@ export default function Signup() {
 
     if (
       firstName.trim() === "" ||
+      lastName.trim() === "" ||
       password.trim() === "" ||
       email.trim() === ""
     ) {
