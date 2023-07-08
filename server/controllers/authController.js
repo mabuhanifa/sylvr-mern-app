@@ -70,7 +70,22 @@ const updateUserController = async (req, res) => {
   const { firstName, lastName, email } = req.body;
 
   try {
-    const user = await User.findById(email);
+    const existingEmail = await User.findOne({ email });
+
+    if (existingEmail) {
+      res
+        .status(400)
+        .json({ error: "This Email already exists with another account" });
+      return;
+    }
+
+    const bearer = req.headers.authorization;
+
+    const token = bearer.split(" ")[1];
+
+    const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findById(userId);
 
     user.firstName = firstName;
     user.lastName = lastName;
