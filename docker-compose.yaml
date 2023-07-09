@@ -37,10 +37,12 @@ services:
       - mern-stack-network
     volumes:
       - mongoData:/data/db
-    environment:
-      - MONGO_URI=<use .env file instead>
-      - JWT_SECRET=<use .env file instead>
-      - MONGO_DATABASE=sylvr
+    # environment:
+    #   - MONGO_URI=<use .env file instead>
+    #   - JWT_SECRET=<use .env file instead>
+    #   - MONGO_DATABASE=sylvr
+    env_file:
+      - ./.env
 networks:
   mern-stack-network:
 volumes:
